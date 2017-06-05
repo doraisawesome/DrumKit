@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Drum Kit</title>
+	<link rel="stylesheet" type="text/css" href="drumKit.css">
+</head>
+<body>
+	<div class="keys">
+		<div data-key="65" class="key">
+			<kbd>A</kbd>
+			<div>clap</div>
+		</div>
+		<div data-key="83" class="key">
+			<kbd>S</kbd>
+			<div>hihat</div>
+		</div>
+		<div data-key="68" class="key">
+			<kbd>D</kbd>
+			<div>kick</div>
+		</div>
+		<div data-key="70" class="key">
+			<kbd>F</kbd>
+			<div>tink</div>
+		</div>
+		<div data-key="71" class="key">
+			<kbd>G</kbd>
+			<div>openhat</div>
+		</div>
+		<div data-key="72" class="key">
+			<kbd>H</kbd>
+			<div>boom</div>
+		</div>
+		<div data-key="74" class="key">
+			<kbd>J</kbd>
+			<div>ride</div>
+		</div>
+		<div data-key="75" class="key">
+			<kbd>K</kbd>
+			<div>snare</div>
+		</div>
+		<div data-key="76" class="key">
+			<kbd>L</kbd>
+			<div>tom</div>
+		</div>
+	</div>
+
+	<audio data-key="65" src="sounds/clap.wav"></audio>
+	<audio data-key="83" src="sounds/hihat.wav"></audio>
+	<audio data-key="68" src="sounds/kick.wav"></audio>
+	<audio data-key="70" src="sounds/tink.wav"></audio>
+	<audio data-key="71" src="sounds/openhat.wav"></audio>
+	<audio data-key="72" src="sounds/boom.wav"></audio>
+	<audio data-key="74" src="sounds/ride.wav"></audio>
+	<audio data-key="75" src="sounds/snare.wav"></audio>
+	<audio data-key="76" src="sounds/tom.wav"></audio>
+
+</body>
+
+<script type="text/javascript">
+
+	// window is EventTarget
+	// e is an object that implements the Event interface
+	window.addEventListener('keydown', function (e) {
+		const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+		const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+		if (!audio) return;
+		audio.currentTime = 0;
+		audio.play();
+		key.classList.add('playing');
+	});
+
+	function removeTransition (e) {
+		if (e.propertyName !== 'transform') return;
+		this.classList.remove('playing');
+	}
+
+	const keys = document.querySelectorAll('.key');
+	keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+</script>
+</html>
